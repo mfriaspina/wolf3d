@@ -6,7 +6,7 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 11:55:57 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/08 18:25:55 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/10 14:37:46 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	mini_map(t_wolf *wolf, t_img *img, t_img *ui, t_map *map)
 		i.x = 0;
 		while (i.x < map->size.x * wolf->unit)
 		{
-			if (map->coor[i.y / wolf->unit][i.x / wolf->unit] == 1)
+			if (map->coor[i.y / wolf->unit][i.x / wolf->unit] == '1')
 				draw_square(img, i, wolf->unit, 0x88444444);
 			else
 				draw_square(img, i, wolf->unit, 0x88FFFFFF);
@@ -79,23 +79,18 @@ t_point	get_size(char *content)
 	int		max;
 	t_point	size;
 
-	size = start_point(0, 0);
+	size = start_point(2, 2);
 	i = -1;
-	max = 0;
+	max = 2;
 	while (content[++i])
 	{
-		if (ft_isdigit(content[i]))
-		{
-			max++;
-			i += ft_num_digits(ft_atoi(&content[i]));
-		}
-		if (ft_isalpha(content[i]))
+		if (ft_isalnum(content[i]))
 			max++;
 		if (content[i] == '\n')
 		{
 			if (max > size.x)
 				size.x = max;
-			max = 0;
+			max = 2;
 			size.y++;
 		}
 	}
@@ -111,21 +106,22 @@ void	start_map(t_map *map, char *content)
 	int		i;
 	t_point	p;
 
-	p = start_point(0, 0);
+	i = -1;
+	while (++i < map->size.x)
+	{
+		map->coor[0][i] = '1';
+		map->coor[map->size.y - 1][i] = '1';
+	}
+	p = start_point(1, 1);
 	i = -1;
 	while (content[++i])
 	{
-		if (ft_isdigit(content[i]))
-		{
-			map->coor[p.y][p.x++] = ft_atoi(&content[i]);
-			i += ft_num_digits(ft_atoi(&content[i]));
-		}
-		else if (ft_isalpha(content[i]))
+		if (ft_isalnum(content[i]))
 			map->coor[p.y][p.x++] = content[i];
 		if (content[i] == '\n')
 		{
 			p.y++;
-			p.x = 0;
+			p.x = 1;
 		}
 	}
 }
@@ -147,6 +143,12 @@ t_map	*get_map(t_wolf *wolf, char *file)
 	i = -1;
 	while (++i < map->size.y)
 		map->coor[i] = ft_strnew(map->size.x);
+	i = -1;
+	while (++i < map->size.y)
+	{
+		map->coor[i][0] = '1';
+		map->coor[i][map->size.x - 1] = '1';
+	}
 	start_map(map, content);
 	free(content);
 	map->display = 1;

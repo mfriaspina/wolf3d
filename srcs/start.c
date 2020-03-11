@@ -6,33 +6,31 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 13:49:40 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/08 19:45:19 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/10 16:18:59 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-t_3d	check_start(t_wolf *wolf, t_3d p, t_point i, double dir)
+t_point	check_start(t_wolf *wolf, t_point p, t_point i, double dir)
 {
-	t_3d n;
-
+	t_point n;
 
 	if (p.x)
 		exit_error(wolf, "wolf3d : Invalid map, Multiple starting points");
 	wolf->angle = dir;
 	n.x = (i.x * UNIT) + (UNIT / 2);
 	n.y = (i.y * UNIT) + (UNIT / 2);
-	n.z = PLAYER_HEIGHT;
-	wolf->map->coor[i.y][i.x] = 0;
+	wolf->map->coor[i.y][i.x] = '0';
 	return (n);
 }
 
-t_3d	player_position(t_wolf *wolf, t_map *map)
+t_point	player_position(t_wolf *wolf, t_map *map)
 {
-	t_3d	p;
+	t_point	p;
 	t_point	i;
 
-	p = start_3d(0, 0, 0);
+	p = start_point(0, 0);
 	i.x = -1;
 	while (++i.x < map->size.x)
 	{
@@ -88,7 +86,8 @@ t_wolf	*start_up(char *location)
 			&(wolf->img->size), &(wolf->img->endian));
 	mini_map(wolf, wolf->minimap, wolf->map_ui, wolf->map);
 	wolf->angle_between = FOV / (WIDTH * 1.0);
-	wolf->distance_to_plane = (WIDTH / 2) / tan((FOV / 2) * M_PI / 180.0);
-	wolf->distance_const = wolf->distance_to_plane * WALL_HEIGHT_FACTOR;
+	wolf->distance_const = (WIDTH / 2) / tan((FOV / 2) * M_PI / 180.0)
+		* WALL_HEIGHT;
+	get_textures(wolf, UNIT, UNIT);
 	return (wolf);
 }

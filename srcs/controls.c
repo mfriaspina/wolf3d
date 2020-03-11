@@ -6,7 +6,7 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:42:55 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/08 18:26:47 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/11 14:34:49 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int		check_collision(t_wolf *wolf, int x, int y)
 {
-	if (!wolf->map->coor[y][x])
+	if (wolf->map->coor[y][x] != '1')
 		return (1);
 	else
 		return (0);
 }
 
-void	check_move(t_wolf *wolf, t_3d p, int key)
+void	check_move(t_wolf *wolf, t_point p, int key)
 {
 	t_point	t;
 
 	if (key == W_KEY)
-		t = start_point(p.x + cos(wolf->angle * M_PI / 180.0) * SPEED,
-				p.y - sin(wolf->angle * M_PI / 180.0) * SPEED);
+		t = start_point(p.x + cos(wolf->angle * M_PI / 180.0) * FORWARD_SPEED,
+				p.y - sin(wolf->angle * M_PI / 180.0) * FORWARD_SPEED);
 	if (key == D_KEY)
 		t = start_point(p.x + sin(wolf->angle * M_PI / 180.0) * SPEED,
 				p.y + cos(wolf->angle * M_PI / 180.0) * SPEED);

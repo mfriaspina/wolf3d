@@ -6,7 +6,7 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 16:39:02 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/05 16:47:39 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/10 13:35:27 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ void	line_img(t_img *img, t_point a, t_point b, int color)
 			b.y += sign.y;
 		}
 	}
-}
-
-t_3d	start_3d(int x, int y, int z)
-{
-	t_3d	point;
-
-	point.x = x;
-	point.y = y;
-	point.z = z;
-	return (point);
 }
 
 t_point	start_point(int x, int y)

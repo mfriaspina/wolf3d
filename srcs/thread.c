@@ -6,7 +6,7 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/08 13:11:43 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/08 13:35:49 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/09 16:46:55 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		*thread_command(void *thread)
 {
 	t_thread	*th;
-	t_3d		d;
+	t_raycast	d;
 
 	th = (t_thread *)thread;
 	while (th->c < (WIDTH / THREAD * (th->id + 1)))

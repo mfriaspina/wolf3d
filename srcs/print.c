@@ -6,33 +6,45 @@
 /*   By: mfrias <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 17:54:40 by mfrias            #+#    #+#             */
-/*   Updated: 2020/03/08 20:08:56 by mfrias           ###   ########.fr       */
+/*   Updated: 2020/03/11 14:25:51 by mfrias           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void	draw_line(t_wolf *wolf, t_3d d, int column)
-{
-	int	i;
-	int	size;
-	int	max;
+/*
+** This function draws each column of the main image
+*/
 
-	size = floor(wolf->distance_const / d.z);
-	i = (HEIGHT / 2) - (size / 2) - 1;
-	max = (HEIGHT / 2) + (size / 2);
+void	draw_line(t_wolf *wolf, t_raycast d, int column)
+{
+	int		i;
+	int		size;
+	int		max;
+	int		start;
+
+	size = wolf->distance_const / d.dis;
+	i = ((HEIGHT - size) / 2) - 1;
+	start = i + 1;
+	max = (HEIGHT + size) / 2;
 	while (++i < max)
 	{
-		if (wolf->dir == 0)
-			pixel_put(wolf->img, start_point(column, i), 0xFF0000);
-		else if (wolf->dir == 1)
-			pixel_put(wolf->img, start_point(column, i), 0x00FF00);
-		else if (wolf->dir == 2)
-			pixel_put(wolf->img, start_point(column, i), 0x0000FF);
+		d.y_texture = ((i - HEIGHT / 2 + size / 2) * UNIT) / size;
+		d.p = start_point(column, i);
+		if (d.dir == 0)
+			texture_print(wolf->img, d, wolf->t[0]);
+		else if (d.dir == 1)
+			texture_print(wolf->img, d, wolf->t[1]);
+		else if (d.dir == 2)
+			texture_print(wolf->img, d, wolf->t[2]);
 		else
-			pixel_put(wolf->img, start_point(column, i), 0xFFFF00);
+			texture_print(wolf->img, d, wolf->t[3]);
 	}
 }
+
+/*
+** This function draws the player onto the minimap
+*/
 
 void	print_player(t_wolf *wolf, t_img *img)
 {
@@ -51,6 +63,10 @@ void	print_player(t_wolf *wolf, t_img *img)
 		}
 	}
 }
+
+/*
+** This function draws the main image with a number of threads
+*/
 
 void	print_image(t_wolf *wolf)
 {
